@@ -1,0 +1,29 @@
+{
+  "name": "Vidparty",
+  "version": "1.0.0",
+  "description": "Watch the video together!",
+  "manifest_version": 3,
+  "author": "R.C",
+  "action": {
+    "default_popup": "popup/popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://dramasq.one/*"],
+      "js": ["scripts/socket.io.min.js", "scripts/content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": {
+    "16": "images/icon.png",
+    "32": "images/icon.png",
+    "48": "images/icon.png",
+    "128": "images/icon.png"
+  },
+  "permissions": [
+    "tabs"
+  ]
+}
