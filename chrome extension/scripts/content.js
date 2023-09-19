@@ -2,7 +2,7 @@ let socket;
 let triggeredByUser = true;
 let video;
 
-const SERVER_URL = "https://vidparty.glitch.me";
+const SERVER_URL = "localhost:3000";
 const PLAY = "PLAY";
 const SEEKED = "SEEKED";
 const PAUSE = "PAUSE";

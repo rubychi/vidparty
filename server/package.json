@@ -1,0 +1,29 @@
+{
+  "name": "vidparty-server",
+  "version": "1.0.0",
+  "description": "Watch the video together!",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "node-fetch": "^2.7.0",
+    "socket.io": "^4.7.2",
+    "uuid": "^9.0.1"
+  },
+  "engines": {
+    "node": "14.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rubychi/vidparty.git"
+  },
+  "author": "R.C",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rubychi/vidparty/issues"
+  },
+  "homepage": "https://github.com/rubychi/vidparty#readme"
+}
