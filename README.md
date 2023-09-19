@@ -4,7 +4,7 @@ A chrome extension that mimics Teleparty to watch the online video together
 
 ## Demo
 
-![Sep-18-2023 23-08-37](https://github.com/rubychi/vidparty/assets/18576075/58a71b24-1921-4b7c-923c-a2848ef49a4a)
+![Sep-19-2023 00-00-07](https://github.com/rubychi/vidparty/assets/18576075/7e318ff5-504d-420b-b4d0-fe15c5896a24)
 
 ## Features
 
