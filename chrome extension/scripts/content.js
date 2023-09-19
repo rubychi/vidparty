@@ -1,4 +1,5 @@
 let socket;
+// An additional flag is required to distinguish user events from the socket emitted events
 let triggeredByUser = true;
 let video;
 
