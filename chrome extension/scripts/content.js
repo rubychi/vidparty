@@ -50,6 +50,10 @@ const updateUrl = (room) =>
   );
 
 window.onload = async () => {
+  // Select the node that will be observed for mutations
+  const targetNode = document.getElementById("myplayer");
+  if (!targetNode) return;
+
   // Check the room query param to see if the user is an invitee
   const urlParams = new URLSearchParams(window.location.search);
   const room = urlParams.get("room");
@@ -61,8 +65,6 @@ window.onload = async () => {
       updateUrl(room);
     }
   );
-  // Select the node that will be observed for mutations
-  const targetNode = document.getElementById("myplayer");
   // Options for the observer (which mutations to observe)
   const config = { childList: true };
   // Create an observer instance linked to the callback function
