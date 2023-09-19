@@ -58,6 +58,9 @@ window.onload = async () => {
   const urlParams = new URLSearchParams(window.location.search);
   const room = urlParams.get("room");
 
+  // Send a message to a service worker to create a room if not presents in the query
+  // Notes: the service worker is used to persist the room during the browser navigation,
+  // also to support communication between the content and the popup in the future.
   await chrome.runtime.sendMessage(
     { type: "vidparty_content", room },
     (room) => {
