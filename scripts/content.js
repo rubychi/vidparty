@@ -1,4 +1,3 @@
-let room;
 let socket;
 let triggeredByUser = true;
 let video;
@@ -7,22 +6,6 @@ const SERVER_URL = "https://vidparty.glitch.me";
 const PLAY = "PLAY";
 const SEEKED = "SEEKED";
 const PAUSE = "PAUSE";
-
-(async () => {
-  socket = io(SERVER_URL);
-  socket.on(PLAY, () => {
-    triggeredByUser = false;
-    video.play();
-  });
-  socket.on(SEEKED, (time) => {
-    triggeredByUser = false;
-    video.currentTime = time;
-  });
-  socket.on(PAUSE, () => {
-    triggeredByUser = false;
-    video.pause();
-  });
-})();
 
 // Callback function to execute when mutations are observed
 const videoTracking = () => {
@@ -43,7 +26,41 @@ const videoTracking = () => {
   };
 };
 
-window.addEventListener("load", async function () {
+const initSocket = (room) => {
+  socket = io(SERVER_URL, { query: { room } });
+  socket.on(PLAY, () => {
+    triggeredByUser = false;
+    video.play();
+  });
+  socket.on(SEEKED, (time) => {
+    triggeredByUser = false;
+    video.currentTime = time;
+  });
+  socket.on(PAUSE, () => {
+    triggeredByUser = false;
+    video.pause();
+  });
+};
+
+const updateUrl = (room) =>
+  window.history.pushState(
+    "",
+    "",
+    `${window.location.href.split("?")[0]}?room=${room}`
+  );
+
+window.onload = async () => {
+  // Check the room query param to see if the user is an invitee
+  const urlParams = new URLSearchParams(window.location.search);
+  const room = urlParams.get("room");
+
+  await chrome.runtime.sendMessage(
+    { type: "vidparty_content", room },
+    (room) => {
+      initSocket(room);
+      updateUrl(room);
+    }
+  );
   // Select the node that will be observed for mutations
   const targetNode = document.getElementById("myplayer");
   // Options for the observer (which mutations to observe)
@@ -54,4 +71,4 @@ window.addEventListener("load", async function () {
   observer.observe(targetNode, config);
 
   videoTracking();
-});
+};
