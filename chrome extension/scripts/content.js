@@ -3,7 +3,7 @@ let socket;
 let triggeredByUser = true;
 let video;
 
-const SERVER_URL = "localhost:3000";
+const SERVER_URL = "https://vidparty.glitch.me";
 const PLAY = "PLAY";
 const SEEKED = "SEEKED";
 const PAUSE = "PAUSE";
@@ -50,25 +50,36 @@ const updateUrl = (room) =>
     `${window.location.href.split("?")[0]}?room=${room}`
   );
 
+const readLocalStorage = async (key) => {
+  return new Promise((resolve, reject) => {
+    chrome.storage.local.get((result) => {
+      result[key] === undefined ? reject() : resolve(result[key]);
+    });
+  });
+};
+
+const getRoom = async () => {
+  // Check the room query param to see if the user is an invitee
+  const urlParams = new URLSearchParams(window.location.search);
+  let room = urlParams.get("room") ?? (await readLocalStorage("room"));
+
+  if (!room) {
+    const res = await fetch("https://random-data-api.com/api/v2/beers");
+    ({ style: room } = await res.json());
+    chrome.storage.local.set({ room });
+  }
+  return room;
+};
+
 window.onload = async () => {
   // Select the node that will be observed for mutations
   const targetNode = document.getElementById("myplayer");
   if (!targetNode) return;
 
-  // Check the room query param to see if the user is an invitee
-  const urlParams = new URLSearchParams(window.location.search);
-  const room = urlParams.get("room");
+  const room = await getRoom();
+  initSocket(room);
+  updateUrl(room);
 
-  // Send a message to a service worker to create a room if not presents in the query
-  // Notes: the service worker is used to persist the room during the browser navigation,
-  // also to support communication between the content and the popup in the future.
-  await chrome.runtime.sendMessage(
-    { type: "vidparty_content", room },
-    (room) => {
-      initSocket(room);
-      updateUrl(room);
-    }
-  );
   // Options for the observer (which mutations to observe)
   const config = { childList: true };
   // Create an observer instance linked to the callback function

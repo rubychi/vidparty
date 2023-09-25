@@ -4,9 +4,6 @@
   "description": "Watch the video together!",
   "manifest_version": 3,
   "author": "R.C",
-  "background": {
-    "service_worker": "background.js"
-  },
   "content_scripts": [
     {
       "matches": ["https://dramasq.one/*"],
@@ -19,5 +16,6 @@
     "32": "images/icon.png",
     "48": "images/icon.png",
     "128": "images/icon.png"
-  }
+  },
+  "permissions": ["storage"]
 }
